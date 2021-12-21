@@ -3,7 +3,6 @@ package com.example.sweater.service;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,11 +14,14 @@ import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepo userRepo;
 
-    @Autowired
-    private MailSender mailSender;
+    private final UserRepo userRepo;
+    private final MailSender mailSender;
+
+    public UserService(UserRepo userRepo, MailSender mailSender) {
+        this.userRepo = userRepo;
+        this.mailSender = mailSender;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

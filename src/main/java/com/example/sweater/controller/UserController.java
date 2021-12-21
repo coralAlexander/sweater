@@ -3,7 +3,6 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +17,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/user")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
-    @Autowired
-    private UserRepo userRepo;
+
+    private final UserRepo userRepo;
+
+    public UserController(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @GetMapping
     public String userList(Model model) {
@@ -59,7 +62,6 @@ public class UserController {
 
     @DeleteMapping
     public String deleteUser(@RequestParam User user ,Model model){
-
         return "";
     }
 }

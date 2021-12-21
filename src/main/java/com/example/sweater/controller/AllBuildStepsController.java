@@ -4,7 +4,6 @@ import com.example.sweater.common.FileGenerator;
 import com.example.sweater.domain.SpecialistPrice;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.AllBuildStepsRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,24 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
-public class AllBulidStepsController {
+public class AllBuildStepsController {
 
-    @Autowired
-    AllBuildStepsRepo allBuildStepsRepo;
+   private final AllBuildStepsRepo allBuildStepsRepo;
 
-    @Autowired
-    FileGenerator fileGenerator;
+   private final FileGenerator  fileGenerator;
 
     @Value("${upload.path}")
     private String uploadPath;
 
+    public AllBuildStepsController(AllBuildStepsRepo allBuildStepsRepo, FileGenerator fileGenerator) {
+        this.allBuildStepsRepo = allBuildStepsRepo;
+        this.fileGenerator = fileGenerator;
+    }
 
     @GetMapping("/allbuildsteps")
     public String allSteps(Model model, @AuthenticationPrincipal User user) {
@@ -48,11 +46,11 @@ public class AllBulidStepsController {
         Long specId = Long.parseLong(id);
         SpecialistPrice spec = allBuildStepsRepo.getById(specId);
 
-        paid = paid.replaceAll(",","");
+        paid = paid.replaceAll(",", "");
         Long convPar = Long.parseLong(paid);
         spec.setPaid(convPar);
 
-        price = price.replaceAll(",","");
+        price = price.replaceAll(",", "");
         Long LongPrice = Long.parseLong(price);
         spec.setPrice(LongPrice);
 
@@ -78,10 +76,10 @@ public class AllBulidStepsController {
         Long specPaidNum = Long.parseLong(specPaid);
         SpecialistPrice specialistPrice = new SpecialistPrice(user, spec, specPriceNum, specPaidNum, comments);
 
-        if (comments != null && !comments.isEmpty()){
+        if (comments != null && !comments.isEmpty()) {
             specialistPrice.setComments(comments);
         }
-        if(!fileGenerator.generateFile(file).isEmpty()){
+        if (!fileGenerator.generateFile(file).isEmpty()) {
             specialistPrice.setFileName(fileGenerator.generateFile(file));
         }
         allBuildStepsRepo.save(specialistPrice);

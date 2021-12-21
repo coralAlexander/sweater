@@ -20,7 +20,7 @@ import java.util.UUID;
 @Controller
 public class MainController {
 
-    private MessageRepo messageRepo;
+    private final MessageRepo messageRepo;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -81,7 +81,7 @@ public class MainController {
         model.addAttribute("origFileName",file.getOriginalFilename());
 
 
-        return "contractorList";
+        return "contractorsList";
     }
 
     @GetMapping("/info")

@@ -1,5 +1,7 @@
 package com.example.sweater.domain;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usr")
+@Getter
+@Setter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,18 +32,6 @@ public class User implements UserDetails {
 
     public boolean isAdmin() {
         return  roles.contains(Role.ADMIN);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -71,13 +63,6 @@ public class User implements UserDetails {
         return getRoles();
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public boolean isActive() {
         return active;
@@ -87,27 +72,5 @@ public class User implements UserDetails {
         this.active = active;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
 }

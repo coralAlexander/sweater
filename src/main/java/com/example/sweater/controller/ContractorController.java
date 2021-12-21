@@ -5,7 +5,6 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Contractor;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.ContractorRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +15,11 @@ import java.util.List;
 @Controller
 public class ContractorController {
 
-    @Autowired
-    private ContractorRepo contractorRepo;
+    private final ContractorRepo contractorRepo;
+
+    public ContractorController(ContractorRepo contractorRepo) {
+        this.contractorRepo = contractorRepo;
+    }
 
     @GetMapping("/contractor")
     public String getContractors(@AuthenticationPrincipal User user, Model model) {

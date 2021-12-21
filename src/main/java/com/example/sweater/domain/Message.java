@@ -15,7 +15,7 @@ public class Message {
 
     private String text;
     private String tag;
-    private String tdrt;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
